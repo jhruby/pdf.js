@@ -480,6 +480,24 @@ function createComponentsBundle(defines) {
     .pipe(replaceJSRootName(componentsAMDName, "pdfjsViewer"));
 }
 
+function createAppComponentsBundle(defines) {
+  var componentsAMDName = "pdfjs-dist/web/app";
+  var componentsOutputName = "app.js";
+
+  var componentsFileConfig = createWebpackConfig(defines, {
+    filename: componentsOutputName,
+    library: componentsAMDName,
+    libraryTarget: "umd",
+    umdNamedDefine: true,
+  });
+  return gulp
+    .src("./web/app.component.js")
+    .pipe(webpack2Stream(componentsFileConfig))
+    .pipe(replaceWebpackRequire())
+    .pipe(replaceJSRootName(componentsAMDName, "pdfjsApp"));
+}
+
+
 function createImageDecodersBundle(defines) {
   var imageDecodersAMDName = "pdfjs-dist/image_decoders/pdf.image_decoders";
   var imageDecodersOutputName = "pdf.image_decoders.js";
@@ -912,6 +930,7 @@ function buildComponents(defines, dir) {
 
   return merge([
     createComponentsBundle(defines).pipe(gulp.dest(dir)),
+    createAppComponentsBundle(defines).pipe(gulp.dest(dir)),
     gulp.src(COMPONENTS_IMAGES).pipe(gulp.dest(dir + "images")),
     preprocessCSS("web/pdf_viewer.css", "components", defines, true)
       .pipe(postcss([calc(), autoprefixer(AUTOPREFIXER_CONFIG)]))
