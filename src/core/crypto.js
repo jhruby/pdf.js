@@ -1710,7 +1710,7 @@ var CipherTransformFactory = (function CipherTransformFactoryClosure() {
   var identityName = Name.get("Identity");
 
   // eslint-disable-next-line no-shadow
-  function CipherTransformFactory(dict, fileId, password) {
+  function CipherTransformFactory(dict, fileId, password, ownerKey) {
     var filter = dict.get("Filter");
     if (!isName(filter, "Standard")) {
       throw new FormatError("unknown encryption method");
@@ -1751,7 +1751,7 @@ var CipherTransformFactory = (function CipherTransformFactoryClosure() {
     }
 
     // prepare keys
-    var ownerPassword = stringToBytes(dict.get("O")).subarray(0, 32);
+    var ownerPassword = ownerKey || stringToBytes(dict.get("O")).subarray(0, 32);
     var userPassword = stringToBytes(dict.get("U")).subarray(0, 32);
     var flags = dict.get("P");
     var revision = dict.get("R");
