@@ -926,8 +926,17 @@ const PDFViewerApplication = {
 
     loadingTask.onPassword = (updateCallback, reason) => {
       this.pdfLinkService.externalLinkEnabled = false;
-      this.passwordPrompt.setUpdateCallback(updateCallback, reason);
-      this.passwordPrompt.open();
+      const encryptionKey = AppOptions.get("encryptionKey");
+
+      if (encryptionKey) {
+        console.log(reason);
+        setTimeout(function () {
+          updateCallback(null, encryptionKey);
+        }, 0);
+      } else {
+        this.passwordPrompt.setUpdateCallback(updateCallback, reason);
+        this.passwordPrompt.open();
+      }
     };
 
     loadingTask.onProgress = ({ loaded, total }) => {

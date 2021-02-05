@@ -39,6 +39,10 @@ class BasePdfManager {
     return this._password;
   }
 
+  get encryptionKey() {
+    return this._encryptionKey;
+  }
+
   get docBaseUrl() {
     let docBaseUrl = null;
     if (this._docBaseUrl) {
@@ -98,6 +102,10 @@ class BasePdfManager {
 
   updatePassword(password) {
     this._password = password;
+  }
+
+  updateEncryptionKey(key) {
+    this._encryptionKey = key;
   }
 
   terminate(reason) {

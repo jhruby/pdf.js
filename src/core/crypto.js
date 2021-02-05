@@ -173,7 +173,7 @@ var calculateMD5 = (function calculateMD5Closure() {
       h0 & 0xFF, (h0 >> 8) & 0xFF, (h0 >> 16) & 0xFF, (h0 >>> 24) & 0xFF,
       h1 & 0xFF, (h1 >> 8) & 0xFF, (h1 >> 16) & 0xFF, (h1 >>> 24) & 0xFF,
       h2 & 0xFF, (h2 >> 8) & 0xFF, (h2 >> 16) & 0xFF, (h2 >>> 24) & 0xFF,
-      h3 & 0xFF, (h3 >> 8) & 0xFF, (h3 >> 16) & 0xFF, (h3 >>> 24) & 0xFF
+      h3 & 0xFF, (h3 >> 8) & 0xFF, (h3 >> 16) & 0xFF, (h3 >>> 24) & 0xFF,
     ]);
   }
 
@@ -185,6 +185,7 @@ var Word64 = (function Word64Closure() {
     this.high = highInteger | 0;
     this.low = lowInteger | 0;
   }
+
   Word64.prototype = {
     and: function Word64_and(word) {
       this.high &= word.high;
@@ -299,21 +300,21 @@ var calculateSHA256 = (function calculateSHA256Closure() {
 
   // prettier-ignore
   var k = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
-           0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-           0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
-           0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-           0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
-           0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-           0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
-           0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-           0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
-           0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-           0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
-           0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-           0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
-           0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-           0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
-           0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
+    0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
+    0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
+    0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+    0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
+    0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
+    0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
+    0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
+    0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
 
   function hash(data, offset, length) {
     // initial hash values
@@ -405,7 +406,7 @@ var calculateSHA256 = (function calculateSHA256Closure() {
       (h4 >> 24) & 0xFF, (h4 >> 16) & 0xFF, (h4 >> 8) & 0xFF, (h4) & 0xFF,
       (h5 >> 24) & 0xFF, (h5 >> 16) & 0xFF, (h5 >> 8) & 0xFF, (h5) & 0xFF,
       (h6 >> 24) & 0xFF, (h6 >> 16) & 0xFF, (h6 >> 8) & 0xFF, (h6) & 0xFF,
-      (h7 >> 24) & 0xFF, (h7 >> 16) & 0xFF, (h7 >> 8) & 0xFF, (h7) & 0xFF
+      (h7 >> 24) & 0xFF, (h7 >> 16) & 0xFF, (h7 >> 8) & 0xFF, (h7) & 0xFF,
     ]);
   }
 
@@ -1710,7 +1711,7 @@ var CipherTransformFactory = (function CipherTransformFactoryClosure() {
   var identityName = Name.get("Identity");
 
   // eslint-disable-next-line no-shadow
-  function CipherTransformFactory(dict, fileId, password) {
+  function CipherTransformFactory(dict, fileId, password, encryptionKey) {
     var filter = dict.get("Filter");
     if (!isName(filter, "Standard")) {
       throw new FormatError("unknown encryption method");
@@ -1750,92 +1751,93 @@ var CipherTransformFactory = (function CipherTransformFactoryClosure() {
       throw new FormatError("invalid key length");
     }
 
-    // prepare keys
-    var ownerPassword = stringToBytes(dict.get("O")).subarray(0, 32);
-    var userPassword = stringToBytes(dict.get("U")).subarray(0, 32);
-    var flags = dict.get("P");
-    var revision = dict.get("R");
-    // meaningful when V is 4 or 5
-    var encryptMetadata =
-      (algorithm === 4 || algorithm === 5) &&
-      dict.get("EncryptMetadata") !== false;
-    this.encryptMetadata = encryptMetadata;
+    if (encryptionKey === undefined) {
+      // prepare keys
+      var ownerPassword = stringToBytes(dict.get("O")).subarray(0, 32);
+      var userPassword = stringToBytes(dict.get("U")).subarray(0, 32);
+      var flags = dict.get("P");
+      var revision = dict.get("R");
+      // meaningful when V is 4 or 5
+      var encryptMetadata =
+        (algorithm === 4 || algorithm === 5) &&
+        dict.get("EncryptMetadata") !== false;
+      this.encryptMetadata = encryptMetadata;
 
-    var fileIdBytes = stringToBytes(fileId);
-    var passwordBytes;
-    if (password) {
-      if (revision === 6) {
-        try {
-          password = utf8StringToString(password);
-        } catch (ex) {
-          warn(
-            "CipherTransformFactory: " +
-              "Unable to convert UTF8 encoded password."
-          );
+      var fileIdBytes = stringToBytes(fileId);
+      var passwordBytes;
+      if (password) {
+        if (revision === 6) {
+          try {
+            password = utf8StringToString(password);
+          } catch (ex) {
+            warn(
+              "CipherTransformFactory: " +
+                "Unable to convert UTF8 encoded password."
+            );
+          }
         }
+        passwordBytes = stringToBytes(password);
       }
-      passwordBytes = stringToBytes(password);
-    }
 
-    var encryptionKey;
-    if (algorithm !== 5) {
-      encryptionKey = prepareKeyData(
-        fileIdBytes,
-        passwordBytes,
-        ownerPassword,
-        userPassword,
-        flags,
-        revision,
-        keyLength,
-        encryptMetadata
-      );
-    } else {
-      var ownerValidationSalt = stringToBytes(dict.get("O")).subarray(32, 40);
-      var ownerKeySalt = stringToBytes(dict.get("O")).subarray(40, 48);
-      var uBytes = stringToBytes(dict.get("U")).subarray(0, 48);
-      var userValidationSalt = stringToBytes(dict.get("U")).subarray(32, 40);
-      var userKeySalt = stringToBytes(dict.get("U")).subarray(40, 48);
-      var ownerEncryption = stringToBytes(dict.get("OE"));
-      var userEncryption = stringToBytes(dict.get("UE"));
-      var perms = stringToBytes(dict.get("Perms"));
-      encryptionKey = createEncryptionKey20(
-        revision,
-        passwordBytes,
-        ownerPassword,
-        ownerValidationSalt,
-        ownerKeySalt,
-        uBytes,
-        userPassword,
-        userValidationSalt,
-        userKeySalt,
-        ownerEncryption,
-        userEncryption,
-        perms
-      );
-    }
-    if (!encryptionKey && !password) {
-      throw new PasswordException(
-        "No password given",
-        PasswordResponses.NEED_PASSWORD
-      );
-    } else if (!encryptionKey && password) {
-      // Attempting use the password as an owner password
-      var decodedPassword = decodeUserPassword(
-        passwordBytes,
-        ownerPassword,
-        revision,
-        keyLength
-      );
-      encryptionKey = prepareKeyData(
-        fileIdBytes,
-        decodedPassword,
-        ownerPassword,
-        userPassword,
-        flags,
-        revision,
-        keyLength,
-        encryptMetadata
-      );
+      if (algorithm !== 5) {
+        encryptionKey = prepareKeyData(
+          fileIdBytes,
+          passwordBytes,
+          ownerPassword,
+          userPassword,
+          flags,
+          revision,
+          keyLength,
+          encryptMetadata
+        );
+      } else {
+        var ownerValidationSalt = stringToBytes(dict.get("O")).subarray(32, 40);
+        var ownerKeySalt = stringToBytes(dict.get("O")).subarray(40, 48);
+        var uBytes = stringToBytes(dict.get("U")).subarray(0, 48);
+        var userValidationSalt = stringToBytes(dict.get("U")).subarray(32, 40);
+        var userKeySalt = stringToBytes(dict.get("U")).subarray(40, 48);
+        var ownerEncryption = stringToBytes(dict.get("OE"));
+        var userEncryption = stringToBytes(dict.get("UE"));
+        var perms = stringToBytes(dict.get("Perms"));
+        encryptionKey = createEncryptionKey20(
+          revision,
+          passwordBytes,
+          ownerPassword,
+          ownerValidationSalt,
+          ownerKeySalt,
+          uBytes,
+          userPassword,
+          userValidationSalt,
+          userKeySalt,
+          ownerEncryption,
+          userEncryption,
+          perms
+        );
+      }
+      if (!encryptionKey && !password) {
+        throw new PasswordException(
+          "No password given",
+          PasswordResponses.NEED_PASSWORD
+        );
+      } else if (!encryptionKey && password) {
+        // Attempting use the password as an owner password
+        var decodedPassword = decodeUserPassword(
+          passwordBytes,
+          ownerPassword,
+          revision,
+          keyLength
+        );
+        encryptionKey = prepareKeyData(
+          fileIdBytes,
+          decodedPassword,
+          ownerPassword,
+          userPassword,
+          flags,
+          revision,
+          keyLength,
+          encryptMetadata
+        );
+      }
     }
 
     if (!encryptionKey) {

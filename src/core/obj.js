@@ -1454,7 +1454,8 @@ var XRef = (function XRefClosure() {
         this.encrypt = new CipherTransformFactory(
           encrypt,
           fileId,
-          this.pdfManager.password
+          this.pdfManager.password,
+          this.pdfManager.encryptionKey
         );
       }
 

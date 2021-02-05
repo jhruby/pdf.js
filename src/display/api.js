@@ -2362,9 +2362,10 @@ class WorkerTransport {
       this._passwordCapability = createPromiseCapability();
 
       if (loadingTask.onPassword) {
-        const updatePassword = password => {
+        const updatePassword = (password, encryptionKey) => {
           this._passwordCapability.resolve({
             password,
+            encryptionKey,
           });
         };
         try {

@@ -345,9 +345,10 @@ class WorkerMessageHandler {
 
           handler
             .sendWithPromise("PasswordRequest", ex)
-            .then(function ({ password }) {
+            .then(function ({ password, encryptionKey }) {
               finishWorkerTask(task);
               pdfManager.updatePassword(password);
+              pdfManager.updateEncryptionKey(encryptionKey);
               pdfManagerReady();
             })
             .catch(function () {
