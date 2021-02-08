@@ -264,6 +264,7 @@ class PDFSidebar {
     }
     this.isOpen = true;
     this.toggleButton.classList.add("toggled");
+    this.toggleButton.setAttribute("aria-expanded", "true");
 
     this.outerContainer.classList.add("sidebarMoving", "sidebarOpen");
 
@@ -282,6 +283,7 @@ class PDFSidebar {
     }
     this.isOpen = false;
     this.toggleButton.classList.remove("toggled");
+    this.toggleButton.setAttribute("aria-expanded", "false");
 
     this.outerContainer.classList.add("sidebarMoving");
     this.outerContainer.classList.remove("sidebarOpen");
@@ -331,7 +333,7 @@ class PDFSidebar {
     const pagesCount = pdfViewer.pagesCount;
     for (let pageIndex = 0; pageIndex < pagesCount; pageIndex++) {
       const pageView = pdfViewer.getPageView(pageIndex);
-      if (pageView && pageView.renderingState === RenderingStates.FINISHED) {
+      if (pageView?.renderingState === RenderingStates.FINISHED) {
         const thumbnailView = pdfThumbnailViewer.getThumbnail(pageIndex);
         thumbnailView.setImage(pageView);
       }
