@@ -931,7 +931,7 @@ const PDFViewerApplication = {
 
       if (encryptionKey) {
         setTimeout(function () {
-          if (reason > 2) {
+          if (reason === 2) {
             updateCallback(null, encryptionKey);
           } else {
             updateCallback(encryptionKey, null);
