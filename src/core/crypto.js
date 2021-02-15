@@ -1764,7 +1764,7 @@ var CipherTransformFactory = (function CipherTransformFactoryClosure() {
     var fileIdBytes = stringToBytes(fileId);
     var passwordBytes;
     if (password) {
-      if (revision === 6) {
+      if (typeof password === "string" && revision === 6) {
         try {
           password = utf8StringToString(password);
         } catch (ex) {

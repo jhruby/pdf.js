@@ -930,9 +930,12 @@ const PDFViewerApplication = {
       const encryptionKey = AppOptions.get("encryptionKey");
 
       if (encryptionKey) {
-        console.log(reason);
         setTimeout(function () {
-          updateCallback(null, encryptionKey);
+          if (reason > 2) {
+            updateCallback(null, encryptionKey);
+          } else {
+            updateCallback(encryptionKey, null);
+          }
         }, 0);
       } else {
         this.passwordPrompt.setUpdateCallback(updateCallback, reason);
